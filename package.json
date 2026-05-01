@@ -17,7 +17,7 @@
         "package": "bun run build && electron-builder",
         "package:dir": "bun run build && electron-builder --dir",
         "lint": "eslint",
-        "lint:fix": "bun lint --fix",
+        "lint:fix": "eslint --fix",
         "start": "bun run build && electron .",
         "start:dev": "bun run build:dev && electron .",
         "start:watch": "bun run build:dev && bun run scripts/startWatch.mts",
