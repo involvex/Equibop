@@ -12,7 +12,7 @@
     "scripts": {
         "build": "bun run scripts/build/build.mts",
         "build:dev": "bun run build --dev",
-        "buildLibVesktop": "bun install --cwd packages/libvesktop && bun run --cwd packages/libvesktop build",
+        "buildLibVesktop": "node -e \"if(process.platform==='linux'){require('fs').renameSync('packages/libvesktop/binding.gyp.bak','packages/libvesktop/binding.gyp')}\" && bun install --cwd packages/libvesktop && bun run --cwd packages/libvesktop build && node -e \"if(process.platform==='linux'){require('fs').renameSync('packages/libvesktop/binding.gyp','packages/libvesktop/binding.gyp.bak')}\"",
         "compileArrpc": "bun run scripts/build/compileArrpc.mts",
         "package": "bun run build && electron-builder",
         "package:dir": "bun run build && electron-builder --dir",
