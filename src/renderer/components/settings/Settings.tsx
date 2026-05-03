@@ -16,6 +16,7 @@ import { ArRPCSettingsButton } from "./ArRPCSettings";
 import { AutoStartToggle } from "./AutoStartToggle";
 import { DeveloperOptionsButton } from "./DeveloperOptions";
 import { DiscordBranchPicker } from "./DiscordBranchPicker";
+import EquicordPlugins from "./EquicordPlugins";
 import { NotificationBadgeToggle } from "./NotificationBadgeToggle";
 import { OutdatedVesktopWarning } from "./OutdatedVesktopWarning";
 import { Updater } from "./Updater";
@@ -142,6 +143,7 @@ const SettingsOptions: Record<string, Array<BooleanSetting | SettingsComponent>>
         }
     ],
     "Rich Presence": [ArRPCSettingsButton],
+    "Equicord Plugins": [EquicordPlugins],
     Miscellaneous: [
         {
             key: "middleClickAutoscroll",

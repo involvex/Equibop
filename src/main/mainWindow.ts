@@ -28,6 +28,7 @@ import { destroyAppBadge } from "./appBadge";
 import { cleanupArRPC, initArRPC, setupArRPC } from "./arrpc";
 import { CommandLine } from "./cli";
 import { BrowserUserAgent, DEFAULT_HEIGHT, DEFAULT_WIDTH, isLinux, MIN_HEIGHT, MIN_WIDTH } from "./constants";
+import { equicordPluginManager } from "./equicordPlugins";
 import { AppEvents } from "./events";
 import { spoofGnu } from "./gnuSpoofing";
 import { sendRendererCommand } from "./ipcCommands";
@@ -246,7 +247,14 @@ function initSettingsListeners(win: BrowserWindow) {
 }
 
 async function initSpellCheckLanguages(_win: BrowserWindow, languages?: string[]) {
-    languages ??= await sendRendererCommand(IpcCommands.GET_LANGUAGES);
+    if (!languages) {
+        try {
+            languages = await sendRendererCommand(IpcCommands.GET_LANGUAGES);
+        } catch (error) {
+            console.warn("Failed to get languages from renderer, using fallback:", error);
+            languages = ["en-US"];
+        }
+    }
     if (!languages) return;
 
     const ses = session.defaultSession;
@@ -432,7 +440,6 @@ function createMainWindow() {
     initMenuBar(win);
     makeLinksOpenExternally(win);
     initSettingsListeners(win);
-    initSpellCheck(win);
     initDevtoolsListeners(win);
     initStaticTitle(win);
 
@@ -446,6 +453,11 @@ function createMainWindow() {
     loadUrl(darwinURL || process.argv.find(arg => arg.startsWith("discord://")));
     addSplashLog();
     // });
+
+    // Initialize spell check after the app is loaded to avoid IPC timeout
+    AppEvents.on("appLoaded", () => {
+        initSpellCheck(win);
+    });
 
     return win;
 }
@@ -486,6 +498,8 @@ export async function createWindows() {
     await ensureVencordFiles();
     runVencordMain();
 
+    addSplashLog();
+    await equicordPluginManager.initialize();
     addSplashLog();
     mainWin = createMainWindow();
 

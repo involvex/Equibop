@@ -146,5 +146,11 @@ export const VesktopNative = {
             ipcRenderer.on(IpcEvents.IPC_COMMAND, (_, message) => cb(message));
         },
         respond: (response: IpcResponse) => ipcRenderer.send(IpcEvents.IPC_COMMAND, response)
+    },
+    equicord: {
+        getAllPlugins: () => invoke<any[]>(IpcEvents.EQUICORD_GET_ALL_PLUGINS),
+        enablePlugin: (name: string) => invoke<boolean>(IpcEvents.EQUICORD_ENABLE_PLUGIN, name),
+        disablePlugin: (name: string) => invoke<boolean>(IpcEvents.EQUICORD_DISABLE_PLUGIN, name),
+        isPluginEnabled: (name: string) => sendSync<boolean>(IpcEvents.EQUICORD_IS_PLUGIN_ENABLED, name)
     }
 };

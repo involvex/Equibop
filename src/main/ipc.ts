@@ -31,6 +31,7 @@ import { setBadgeCount } from "./appBadge";
 import { createArRPCWindow } from "./arrpcWindow";
 import { autoStart } from "./autoStart";
 import { VENCORD_QUICKCSS_FILE, VENCORD_THEMES_DIR } from "./constants";
+import { equicordPluginManager } from "./equicordPlugins";
 import { AppEvents } from "./events";
 import { getPlatformSpoofInfo } from "./gnuSpoofing";
 import { mainWin } from "./mainWindow";
@@ -249,4 +250,20 @@ handle(IpcEvents.VOICE_STATE_CHANGED, (_, variant: string) => {
 
 handle(IpcEvents.VOICE_CALL_STATE_CHANGED, (_, inCall: boolean) => {
     AppEvents.emit("voiceCallStateChanged", inCall);
+});
+
+handleSync(IpcEvents.EQUICORD_GET_ALL_PLUGINS, () => {
+    return equicordPluginManager.getAllPlugins();
+});
+
+handle(IpcEvents.EQUICORD_ENABLE_PLUGIN, (_, name: string) => {
+    return equicordPluginManager.enablePlugin(name);
+});
+
+handle(IpcEvents.EQUICORD_DISABLE_PLUGIN, (_, name: string) => {
+    return equicordPluginManager.disablePlugin(name);
+});
+
+handleSync(IpcEvents.EQUICORD_IS_PLUGIN_ENABLED, (_, name: string) => {
+    return equicordPluginManager.isPluginEnabled(name);
 });
