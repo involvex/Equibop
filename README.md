@@ -88,16 +88,31 @@ bun install
 bun start
 
 # Or package (will build packages for your OS)
-bun package
+bun run package
 
 # Or only build the Linux Pacman package
-bun package --linux pacman
+bun run package --linux pacman
 
 # Or package to a directory only
-bun package:dir
+bun run package:dir
 ```
 
-## Building LibVesktop from Source
+### Troubleshooting
+
+#### "Electron is missing the main entry point" when running .exe from win-unpacked
+
+This error occurs when you copy the `equibop.exe` from the win-unpacked folder to another location (like your desktop) without copying the accompanying `resources` folder. The Electron executable relies on the `resources/app.asar` file which contains the main entry point (`dist/js/main.js`).
+
+**Solution:** Always move/copy the entire contents of the `win-unpacked` folder, not just the `.exe` file.
+
+#### Using Portable Mode
+
+To create a portable version:
+1. Copy the entire `win-unpacked` folder to your USB drive or desired location
+2. Run `equibop.exe` from within that folder
+3. All configuration will be stored relative to the executable
+
+### Building LibVesktop from Source
 
 This is a small C++ helper library Equibop uses on Linux to emit D-Bus events. By default, prebuilt binaries for x64 and arm64 are used.
 

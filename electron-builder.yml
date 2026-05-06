@@ -1,0 +1,65 @@
+appId: org.equicord.equibop
+productName: Equibop
+executableName: equibop
+
+asar: true
+directories:
+  output: dist
+  app: .
+
+files:
+  - !*
+  - !node_modules
+  - dist/js
+  - static
+  - package.json
+  - LICENSE
+
+protocols:
+  name: Discord
+  schemes:
+    - discord
+
+linux:
+  icon: build/icon.svg
+  category: Network
+  maintainer: contact@equicord.org
+  target:
+    - target: deb
+      arch:
+        - x64
+        - arm64
+    - target: tar.gz
+      arch:
+        - x64
+        - arm64
+    - target: rpm
+      arch:
+        - x64
+        - arm64
+    - target: AppImage
+      arch:
+        - x64
+        - arm64
+
+win:
+  icon: build/icon.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - arm64
+    - target: zip
+      arch:
+        - x64
+        - arm64
+
+mac:
+  target:
+    - target: default
+      arch: universal
+  category: public.app-category.social-networking
+  darkModeSupport: true
+
+publish:
+  provider: github

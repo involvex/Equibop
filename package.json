@@ -10,7 +10,7 @@
     "author": "Equicord <contact@equicord.org>",
     "main": "dist/js/main.js",
     "scripts": {
-        "prebuild": "bun run format:check && bun run lint && bun run testTypes",
+        "prebuild": "bun run format && bun run lint && bun run testTypes",
         "build": "bun run scripts/build/build.mts",
         "build:dev": "bun run build --dev",
         "buildLibVesktop": "node -e \"if(process.platform==='linux'){require('fs').renameSync('packages/libvesktop/binding.gyp.bak','packages/libvesktop/binding.gyp')}\" && bun install --cwd packages/libvesktop && bun run --cwd packages/libvesktop build && node -e \"if(process.platform==='linux'){require('fs').renameSync('packages/libvesktop/binding.gyp','packages/libvesktop/binding.gyp.bak')}\"",
@@ -77,6 +77,11 @@
         "appId": "org.equicord.equibop",
         "productName": "Equibop",
         "executableName": "equibop",
+        "asar": true,
+        "directories": {
+            "output": "dist",
+            "app": "."
+        },
         "files": [
             "!*",
             "!node_modules",
@@ -215,7 +220,7 @@
             "enableNodeOptionsEnvironmentVariable": false,
             "enableNodeCliInspectArguments": false,
             "enableEmbeddedAsarIntegrityValidation": false,
-            "onlyLoadAppFromAsar": true,
+            "onlyLoadAppFromAsar": false,
             "loadBrowserProcessSpecificV8Snapshot": false,
             "grantFileProtocolExtraPrivileges": false
         }

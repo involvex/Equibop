@@ -38,17 +38,14 @@ jobs:
             - name: Build
               run: bun run build
 
-            - name: Run Electron Builder
-              if: ${{ matrix.platform != 'mac' }}
-              run: |
-                  bun run electron-builder --${{ matrix.platform }} --publish always
+            - name: Create Apple signing key (macOS only)
+              if: ${{ matrix.platform == 'mac' }}
+              run: echo "$API_KEY" > apple.p8
               env:
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  API_KEY: ${{ secrets.APPLE_API_KEY }}
 
             - name: Run Electron Builder
-              if: ${{ matrix.platform == 'mac' }}
               run: |
-                  echo "$API_KEY" > apple.p8
                   bun run electron-builder --${{ matrix.platform }} --publish always
               env:
                   GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
